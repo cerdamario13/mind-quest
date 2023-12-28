@@ -1,4 +1,5 @@
-import { Grid, Paper, styled } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { Title } from './Title';
 import { questionGeneration } from './questionGeneration';
@@ -29,12 +30,12 @@ export const Categories: React.FunctionComponent = () => {
   
   const handleCatClick = (cat: any) => {
     //navigate to question page with category as "props"
-    navigate('/question', { state: { category: cat } });
+    navigate('/question', { state: { category: questionGeneration(cat.category) } });
   };
   
   return (
     <>
-      <Title />
+      <Title titleName='Categories - Categorias' />
       <Grid container rowSpacing={5} columnGap={5} justifyContent="center">
         {cats}
       </Grid>
@@ -42,7 +43,7 @@ export const Categories: React.FunctionComponent = () => {
   );
 };
 
-const Item = styled(Paper)(({ theme }) => ({
+export const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#cdcfd1',
   ...theme.typography.body2,
   padding: theme.spacing(1),
