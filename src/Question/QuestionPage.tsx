@@ -6,6 +6,7 @@ import { Item } from './Categories';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import CachedIcon from '@mui/icons-material/Cached';
 import { questionGeneration } from './questionGeneration';
+import { QuestionCheck } from '../Dialogs/QestionCheck';
 
 interface QuestionPageProps {
 };
@@ -16,12 +17,18 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
   const category = location.state.category;
   const navigate = useNavigate();
   const currentCategory = location.state.currentCategory;
+  const [open, setOpen] = React.useState(false);
+  const [check, setCheck] = React.useState('');
   
   const choiceClick = (choice: any) => {
     //Check if the choice is correct
     if (choice === category.answer) {
-      console.log(choice);
-    };
+      setOpen(true);
+      setCheck('correct');
+    } else {
+      setOpen(true);
+      setCheck('incorrect');
+    }
   };
   
   const choices = category.choices.map((choice: any) => {
@@ -53,6 +60,10 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
         <ArrowBackRoundedIcon style={{ cursor: 'pointer' }} onClick={() => goToHomePage()} />
         <CachedIcon style={{ cursor: 'pointer' }} onClick={() => regenerateQuestion()} />
       </Stack>
+      
+      {
+        open && <QuestionCheck open={open} setOpen={setOpen} check={check} />
+      }
       
     </>
   );
