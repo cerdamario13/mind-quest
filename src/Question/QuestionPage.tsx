@@ -31,10 +31,10 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     }
   };
   
-  const choices = category.choices.map((choice: any) => {
+  const choices = category.choices.map((choice: string, idx: number) => {
     return (
       <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
-        <Item>{choice}</Item>
+          <Item>{`${idx+1}: ${choice}`}</Item>
       </Grid>
     )
   });
