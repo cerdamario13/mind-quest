@@ -30,7 +30,7 @@ export const Categories: React.FunctionComponent = () => {
   
   const handleCatClick = (cat: any) => {
     //navigate to question page with category as "props"
-    navigate('/question', { state: { category: questionGeneration(cat.category) } });
+    navigate('/question', { state: { category: questionGeneration(cat.category), currentCategory: cat.category } });
   };
   
   return (

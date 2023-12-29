@@ -1,18 +1,21 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Title } from './Title';
-import { Grid } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import { Item } from './Categories';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import CachedIcon from '@mui/icons-material/Cached';
+import { questionGeneration } from './questionGeneration';
 
 interface QuestionPageProps {
-}
+};
 
 export const QuestionPage: React.FC<QuestionPageProps> = () => {
   
   const location = useLocation();
   const category = location.state.category;
-  console.log(category);
+  const navigate = useNavigate();
+  const currentCategory = location.state.currentCategory;
   
   const choiceClick = (choice: any) => {
     //Check if the choice is correct
@@ -29,6 +32,14 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     )
   });
   
+  const regenerateQuestion = () => {
+    navigate('/question', { state: { category: questionGeneration(currentCategory) } });
+  };
+  
+  const goToHomePage = () => {
+    navigate('/');
+  };
+  
   return (
     <>
       <Title titleName={category.enQuestion} />
@@ -38,7 +49,10 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
         {choices}
       </Grid>
       
-      <ArrowBackRoundedIcon style={{ cursor: 'pointer' }} onClick={() => window.history.back()} />
+      <Stack direction="row" spacing={3} justifyContent="center" style={{padding: 10}}>
+        <ArrowBackRoundedIcon style={{ cursor: 'pointer' }} onClick={() => goToHomePage()} />
+        <CachedIcon style={{ cursor: 'pointer' }} onClick={() => regenerateQuestion()} />
+      </Stack>
       
     </>
   );
