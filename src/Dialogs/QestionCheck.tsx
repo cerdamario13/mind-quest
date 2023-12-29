@@ -1,7 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, Slide } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, Slide, Stack } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import CheckIcon from '@mui/icons-material/Check';
 
 interface QuestionCheckProps {
   open: boolean;
@@ -40,7 +41,13 @@ export const QuestionCheck: React.FC<QuestionCheckProps> = (props) => {
       onClose={handleClose}>
         
       <DialogContent>
-        {props.check === 'correct' ? <h1>Correct</h1> : <h1>Incorrect</h1>}
+          <Stack direction="row" justifyContent="center">
+            {
+              props.check === 'correct' ? 
+              <h1>Correct</h1> : <h1>Incorrect</h1>  
+            }     
+            <CheckIcon fontSize='large' color={props.check == 'correct' ? 'success' : 'error'}/>
+          </Stack>
       </DialogContent>      
       
       <DialogActions>
