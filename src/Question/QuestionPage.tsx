@@ -13,16 +13,24 @@ interface QuestionPageProps {
 
 export const QuestionPage: React.FC<QuestionPageProps> = () => {
   
+  const [currentCategoryState, setCurrentCategoryState] = React.useState('');
+  
+  React.useEffect(() => {
+    //Set the current category
+    setCurrentCategoryState(selectedCategory);
+  }, []);
+  
   const location = useLocation();
-  const category = location.state.category;
+  const questionData = location.state.category;
   const navigate = useNavigate();
-  const currentCategory = location.state.currentCategory;
+  const selectedCategory = location.state.currentCategory;
   const [open, setOpen] = React.useState(false);
   const [check, setCheck] = React.useState('');
   
+  
   const choiceClick = (choice: any) => {
     //Check if the choice is correct
-    if (choice === category.answer) {
+    if (choice === questionData.answer) {
       setOpen(true);
       setCheck('correct');
     } else {
@@ -31,7 +39,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     }
   };
   
-  const choices = category.choices.map((choice: string, idx: number) => {
+  const choices = questionData.choices.map((choice: string, idx: number) => {
     return (
       <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
           <Item>{`${idx+1}: ${choice}`}</Item>
@@ -40,7 +48,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
   });
   
   const regenerateQuestion = () => {
-    navigate('/question', { state: { category: questionGeneration(currentCategory) } });
+    navigate('/question', { state: { category: questionGeneration(currentCategoryState) } });
   };
   
   const goToHomePage = () => {
@@ -49,8 +57,8 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
   
   return (
     <>
-      <Title titleName={category.enQuestion} />
-      <Title titleName={category.esQuestion} />
+      <Title titleName={questionData.enQuestion} />
+      <Title titleName={questionData.esQuestion} />
       
       <Grid container rowSpacing={5} columnGap={5} justifyContent="center">
         {choices}
