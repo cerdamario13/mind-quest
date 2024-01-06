@@ -16,7 +16,11 @@ export const Categories: React.FunctionComponent = () => {
     if (questionData.length) {
       var catTest = questionData[0].questions.map((cat: any, idx: number) => {
         return {key: idx, name: cat.Name, category: cat.category}
-      }); 
+      });
+      
+      //Add a random category to the array at the beginning
+      catTest.unshift({key: -1, name: 'Random - Al Azar', category: 'random'});
+      
       setCategories(catTest);
     }
   }, [questionData]);
