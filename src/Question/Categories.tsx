@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Stack } from '@mui/material';
+import { Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { Title } from './Title';
@@ -6,27 +6,32 @@ import { questionGeneration } from './questionGeneration';
 import { useNavigate } from 'react-router-dom';
 import readExcelFile from '../data/readExcelData';
 
+//Get local storage data
+var categoriesStorage = JSON.parse(localStorage.getItem('projects/mindQuest/categories') || '[]');
+
 export const Categories: React.FunctionComponent = () => {
   
   const navigate = useNavigate();
   const [questionData, setQuestionData] = React.useState<any[]>([]);
-  const [categories, setCategories] = React.useState<any[]>([]);
+  const [categories, setCategories] = React.useState<any[]>(categoriesStorage);
   
   React.useEffect(() => {
-    if (questionData.length) {
+    if (questionData.length) {     
       var catTest = questionData[0].questions.map((cat: any, idx: number) => {
         return {key: idx, name: cat.Name, category: cat.category}
       });
-      
       //Add a random category to the array at the beginning
       catTest.unshift({key: -1, name: 'Random - Al Azar', category: 'random'});
       
+      //set the categories in localStorage and state
       setCategories(catTest);
+      localStorage.setItem('projects/mindQuest/categories', JSON.stringify(catTest));
+
     }
   }, [questionData]);
     
   
-  const cats = categories.map((cat) => {
+  const cats = categories.map((cat: any) => {
     return (
       <Grid key={cat.key} item xs={5} onClick={() => handleCatClick(cat)} style={{ cursor: 'pointer' }}>
         <Item>{cat.name}</Item>
@@ -68,6 +73,11 @@ export const Categories: React.FunctionComponent = () => {
       </Grid>
       
       <Stack sx={{ paddingTop: 10, alignItems: 'center'}}>
+        {
+          categories.length > 0 && (
+            <Typography>Using saved data</Typography>
+          )
+        }
         <Button
           variant="outlined"
           style={{ width: '500px'}}
