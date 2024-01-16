@@ -2,7 +2,6 @@
 var questionDataStorage = JSON.parse(localStorage.getItem('projects/mindQuest/questionData') || '[]');
 
 export const questionGeneration = (category: string) => {
-    console.log(questionDataStorage);
   //get the questions using the category from the data
   var dataArray = questionDataStorage.filter((obj: questionDataProps) => obj.sheetName == category);
   var questions = dataArray[0].questions;
