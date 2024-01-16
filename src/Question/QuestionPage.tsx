@@ -28,7 +28,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [check, setCheck] = React.useState('');
   
   
-  const choiceClick = (choice: any) => {
+  const choiceClick = (choice: string) => {
     //Check if the choice is correct
     if (choice === questionData.answer) {
       setOpen(true);
