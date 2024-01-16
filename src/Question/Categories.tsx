@@ -49,8 +49,16 @@ export const Categories: React.FunctionComponent = () => {
       // Call the function to read the Excel file here
       readExcelFile(file)
       .then((data) => {
+        
+        //clear current localStorage data
+        localStorage.removeItem('projects/mindQuest/categories');
+        localStorage.removeItem('projects/mindQuest/questionData');
+        
         setQuestionData(data);
         localStorage.setItem('projects/mindQuest/questionData', JSON.stringify(data));
+        
+        //reload the page
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
