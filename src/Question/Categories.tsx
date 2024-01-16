@@ -8,7 +8,6 @@ import readExcelFile from '../data/readExcelData';
 
 //Get local storage data
 var categoriesStorage = JSON.parse(localStorage.getItem('projects/mindQuest/categories') || '[]');
-
 export const Categories: React.FunctionComponent = () => {
   
   const navigate = useNavigate();
@@ -51,6 +50,7 @@ export const Categories: React.FunctionComponent = () => {
       readExcelFile(file)
       .then((data) => {
         setQuestionData(data);
+        localStorage.setItem('projects/mindQuest/questionData', JSON.stringify(data));
       })
       .catch((error) => {
         console.log(error);
