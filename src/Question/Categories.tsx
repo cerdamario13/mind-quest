@@ -71,7 +71,7 @@ export const Categories: React.FunctionComponent = () => {
       <Title titleName='Categories - Categorias' />
       
       <Grid container rowSpacing={5} columnGap={5} justifyContent="center">
-        {cats.length == 0 ? (
+        {cats.length === 0 ? (
           <Grid item xs={5} style={{ cursor: 'pointer' }}>
             <Item>Load File to begin</Item>
           </Grid>
