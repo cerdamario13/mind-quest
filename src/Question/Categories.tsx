@@ -1,10 +1,11 @@
-import { Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { Title } from './Title';
 import { questionGeneration } from './questionGeneration';
 import { useNavigate } from 'react-router-dom';
 import readExcelFile from '../data/readExcelData';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 //Get local storage data
 var categoriesStorage = JSON.parse(localStorage.getItem('projects/mindQuest/categories') || '[]');
@@ -37,6 +38,12 @@ export const Categories: React.FunctionComponent = () => {
       </Grid>
     )
   });
+  
+  const deleteSavedData = () => {
+    localStorage.removeItem('projects/mindQuest/categories');
+    localStorage.removeItem('projects/mindQuest/questionData');
+    window.location.reload();
+  };
   
   const handleCatClick = (cat: any) => {
     //navigate to question page with category as "props"
@@ -82,16 +89,54 @@ export const Categories: React.FunctionComponent = () => {
       
       <Stack sx={{ paddingTop: 10, alignItems: 'center'}}>
         {
-          categories.length > 0 && (
-            <Typography>Using saved data</Typography>
+          categories.length > 0 ? (
+            <>
+              <Typography>Using saved data</Typography>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls='panel1-content'
+                  id='panel1-header'
+                >
+                  More Options
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Stack
+                    spacing={2}
+                  >
+                    
+                  <Button
+                    variant="outlined"
+                    style={{ width: '500px'}}
+                  >
+                    <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                  </Button>
+                  
+                  <Button
+                    variant='outlined'
+                    style={{ width: '500px'}}
+                    onClick={deleteSavedData}
+                    >
+                    Delete Data 
+                  </Button>
+                    
+                  </Stack>
+                  
+                </AccordionDetails>
+                
+              </Accordion>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outlined"
+                style={{ width: '500px'}}
+              >
+                <input type="file" accept=".xlsx" onChange={handleFileChange} />
+              </Button>              
+            </>
           )
         }
-        <Button
-          variant="outlined"
-          style={{ width: '500px'}}
-        >
-          <input type="file" accept=".xlsx" onChange={handleFileChange} />
-        </Button>
       </Stack>
     </>
   );
