@@ -30,7 +30,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
   
   const choiceClick = (choice: string) => {
     //Check if the choice is correct
-    if (choice === questionData.answer) {
+    if (choice.toString() === questionData.answer.toString()) {
       setOpen(true);
       setCheck('correct');
     } else {
@@ -39,7 +39,16 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     }
   };
   
-  const choices = questionData.choices.split(',').map((city: string) => city.trim()).map((choice: string, idx: number) => {
+  // Shuffle the choices (Fisher-Yates shuffle)
+  const shuffleArray = (array: string[]) =>{
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
+  const choices = shuffleArray(questionData.choices.split(',').map((city: string) => city.trim())).map((city: string) => city.trim()).map((choice: string, idx: number) => {
     return (
       <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
           <Item>{`${idx+1}: ${choice}`}</Item>
