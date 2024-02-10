@@ -3,14 +3,15 @@ var questionDataStorage = JSON.parse(localStorage.getItem('projects/mindQuest/qu
 
 export const questionGeneration = (category: string) => {
   //get the questions using the category from the data
-  
   if (category == 'random') {
-    //Get all of the questions from the data and choose one at random
-    var allQuestions: any[] = [];
-    questionDataStorage.map((quest: any) => {
-      allQuestions.push(...quest.questions);
-    });
-    
+    const allQuestions = questionDataStorage.reduce((acc: any, item: any) => {
+      //if the sheetName is not Categories, then add the questions to the accumulator
+      if (item.sheetName !== 'Categories') {
+        return acc.concat(item.questions);
+      };
+      return acc; //should always return the accumulator (acc), even if the if condition is not met
+    }, []);
+        
     //randomly select one question from the questions array
     const random = Math.floor(Math.random() * allQuestions.length);
     return allQuestions[random];
