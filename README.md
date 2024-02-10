@@ -1,7 +1,7 @@
 # Mind-Quest
 
 ## Description
-Trivia games have always fascinated me. The skill to be able to recall information at a moment's notice is something I have always admired. I have always wanted to play this game as a family but have faced difficulty since my parents speak Spanish and my spouse speaks English. I wanted to create a game that would allow us to play together and have fun while learning.
+Trivia games have always fascinated me. The skill to be able to recall information at a moment's notice is something I have always admired. I have always wanted to play this game as a family but had difficulty since my parents speak primarily Spanish and my spouse speaks English. I wanted to create a game that would allow us to play together without any one feeling left out due to a language barrier.
 
 Mind-Quest is a simple trivia game that displays questions in English and Spanish, allowing my bilingual family to play together.
 
