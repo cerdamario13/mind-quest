@@ -48,13 +48,16 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     return array;
   }
   
-  const choices = shuffleArray(questionData.choices.split(',').map((city: string) => city.trim())).map((city: string) => city.trim()).map((choice: string, idx: number) => {
-    return (
-      <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
-          <Item>{`${idx+1}: ${choice}`}</Item>
-      </Grid>
-    )
-  });
+  //Use the useMemo hook to memoize the choices and prevent them from being re-rendered (reordered) on every render
+  const choices = React.useMemo(() => {
+    return shuffleArray(questionData.choices.split(',').map((city: string) => city.trim())).map((city: string) => city.trim()).map((choice: string, idx: number) => {
+        return (
+          <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
+              <Item>{`${idx+1}: ${choice}`}</Item>
+          </Grid>
+        )
+        });
+  }, [questionData])
   
   const regenerateQuestion = () => {
     navigate('/question', { state: { category: questionGeneration(currentCategoryState) } });
