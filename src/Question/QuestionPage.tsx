@@ -53,7 +53,7 @@ export const QuestionPage: React.FC<QuestionPageProps> = () => {
     return shuffleArray(questionData.choices.split(',').map((city: string) => city.trim())).map((city: string) => city.trim()).map((choice: string, idx: number) => {
         return (
           <Grid key={choice} item xs={5} style={{ cursor: 'pointer' }} onClick={() => choiceClick(choice)}>
-              <Item>{`${idx+1}: ${choice}`}</Item>
+              <Item>{`${choice}`}</Item>
           </Grid>
         )
         });
