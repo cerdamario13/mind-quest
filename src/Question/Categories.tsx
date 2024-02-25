@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Drawer, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { Title } from './Title';
@@ -6,6 +6,8 @@ import { questionGeneration } from './questionGeneration';
 import { useNavigate } from 'react-router-dom';
 import readExcelFile from '../data/readExcelData';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SettingsIcon from '@mui/icons-material/Settings';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 //Get local storage data
 var categoriesStorage = JSON.parse(localStorage.getItem('projects/mindQuest/categories') || '[]');
@@ -14,6 +16,11 @@ export const Categories: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const [questionData, setQuestionData] = React.useState<any[]>([]);
   const [categories, setCategories] = React.useState<any[]>(categoriesStorage);
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpenDrawer(newOpen);
+  };
   
   React.useEffect(() => {
     if (questionData.length) {     
@@ -75,7 +82,79 @@ export const Categories: React.FunctionComponent = () => {
   
   return (
     <>
-      <Title titleName='Categories - Categorias' />
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <div></div>
+        <Title titleName='Categories - Categorias' /> 
+        <Stack direction="row">
+          {
+              categories.length > 0 ? (
+                <IconButton>
+                  <BeenhereIcon />
+                </IconButton>
+              ) : (
+                <></>
+              )
+            }
+          <IconButton>
+            <SettingsIcon
+              onClick={toggleDrawer(true)}
+            />
+          </IconButton> 
+        </Stack>
+      </Stack>
+      
+      <Drawer
+        open={openDrawer}
+        onClose={toggleDrawer(false)}
+      >
+        <Box sx={{ width: 350 }} role="presentation">
+          <Stack sx={{ paddingTop: 10, alignItems: 'center'}}>
+          {
+            categories.length > 0 ? (
+              <>
+                  <Stack
+                      spacing={2}
+                    >
+                    
+                    <Typography>Using saved data</Typography>
+                    
+                    <Button
+                      variant="outlined"
+                    >
+                      <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                    </Button>
+                    
+                    <Button
+                      variant='outlined'
+                      onClick={deleteSavedData}
+                      >
+                      Delete Data 
+                    </Button>
+                  </Stack>
+              </>
+            ) : (
+              <>
+                <Stack
+                  spacing={2}
+                >
+                  <Typography>Load your own data</Typography>
+                  <Button
+                    variant="outlined"
+                  >
+                    <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                  </Button> 
+                </Stack>             
+              </>
+            )
+          }
+        </Stack>
+        </Box>
+        
+      </Drawer>
       
       <Grid container rowSpacing={5} columnGap={5} justifyContent="center">
         {cats.length === 0 ? (
@@ -87,57 +166,6 @@ export const Categories: React.FunctionComponent = () => {
         )}
       </Grid>
       
-      <Stack sx={{ paddingTop: 10, alignItems: 'center'}}>
-        {
-          categories.length > 0 ? (
-            <>
-              <Typography>Using saved data</Typography>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls='panel1-content'
-                  id='panel1-header'
-                >
-                  More Options
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Stack
-                    spacing={2}
-                  >
-                    
-                  <Button
-                    variant="outlined"
-                    style={{ width: '500px'}}
-                  >
-                    <input type="file" accept=".xlsx" onChange={handleFileChange} />
-                  </Button>
-                  
-                  <Button
-                    variant='outlined'
-                    style={{ width: '500px'}}
-                    onClick={deleteSavedData}
-                    >
-                    Delete Data 
-                  </Button>
-                    
-                  </Stack>
-                  
-                </AccordionDetails>
-                
-              </Accordion>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="outlined"
-                style={{ width: '500px'}}
-              >
-                <input type="file" accept=".xlsx" onChange={handleFileChange} />
-              </Button>              
-            </>
-          )
-        }
-      </Stack>
     </>
   );
 };
